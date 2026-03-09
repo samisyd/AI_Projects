@@ -1,0 +1,19 @@
+'''
+Tokenizing text with AutoTokenizer
+
+AutoTokenizers simplify text preparation by automatically handling cleaning, normalization, and tokenization. They ensure the text is processed just as the model expects.
+
+In this exercise, explore how AutoTokenizer transforms text into tokens ready for machine learning tasks.
+'''
+
+# Import necessary library for tokenization
+from transformers import AutoTokenizer
+
+# Load the tokenizer
+tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased-finetuned-sst-2-english")
+
+# Split input text into tokens
+tokens = tokenizer.tokenize("AI: Making robots smarter and humans lazier!")
+
+# Display the tokenized output
+print(f"Tokenized output: {tokens}")
