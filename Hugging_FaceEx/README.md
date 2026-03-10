@@ -12,6 +12,7 @@ This project includes examples for:
 - Tokenization
 - PDF Processing and Question Answering
 - Inference API Usage
+- Comprehensive NLP Applications (Jupyter Notebook)
 
 ## Installation
 
@@ -42,6 +43,9 @@ This project includes examples for:
 - soundfile
 - pypdf
 - huggingface-hub (for inference API)
+- pandas, numpy, matplotlib, seaborn (for data analysis and visualization)
+- sentence-transformers (for text embeddings)
+- jupyter (for running notebooks)
 
 ## Scripts
 
@@ -100,6 +104,21 @@ This project includes examples for:
   python inference_ex.py
   ```
 
+### Jupyter Notebooks
+
+- **`NLP_Applications.ipynb`**: Comprehensive Jupyter notebook demonstrating end-to-end NLP applications including:
+  - Data loading and preprocessing of customer reviews
+  - Sentiment analysis with visualization
+  - Text cleaning impact analysis
+  - Time-series sentiment trends
+  - Text embeddings using Sentence Transformers
+  - Semantic search capabilities
+  
+  Requires `runway.csv` dataset file. Open in Jupyter Lab/Notebook to run interactively.
+  ```bash
+  jupyter lab NLP_Applications.ipynb
+  ```
+
 ### Main
 
 - **`main.py`**: Simple hello world script.
@@ -121,7 +140,7 @@ python sentiment.py
 - `.venv/`: Virtual environment (created by uv)
 - `pyproject.toml`: Project configuration
 - `requirements.txt`: Python dependencies
-- `uv.lock`: Lock file for uv package manager
+
 
 ## License
 
