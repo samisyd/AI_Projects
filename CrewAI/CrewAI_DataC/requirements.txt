@@ -1,0 +1,6 @@
+crewai-tools 
+crewai
+ipykernel
+litellm
+groq
+python-dotenv
