@@ -1,0 +1,35 @@
+{
+    "mcpServers": {
+      "playwright": {
+        "command": "npx",
+        "args": [
+          "@playwright/mcp@latest"
+        ]
+      },
+      "airbnb": {
+      "command": "npx",
+        "args": ["-y", "@openbnb/mcp-server-airbnb"]
+      },
+      "duckduckgo-search": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "duckduckgo-mcp-server"
+        ]
+      },
+      "weather": {
+        "command": "uv",
+        "args": [
+          "--directory",
+          "C:\\Users\\samin\\Python\\mcp-use-main\\mcp-use_test\\mcp_weather",
+          "run",
+          "weather.py"
+        ]
+      },
+      "flightbooking": {
+        "command": "uv",
+        "args": ["run", "python", "flightBooking.py"],
+        "cwd": "C:\\Users\\samin\\Python\\mcp-use-main\\mcp-use_test\\flightBooking"        
+      }
+    }
+}

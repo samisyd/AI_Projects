@@ -1,0 +1,9 @@
+{
+    "mcpServers": {
+      "flightbooking": {
+        "command": "uv",
+        "args": ["run", "python", "flightBooking.py"],
+        "cwd": "C:\\Users\\samin\\Python\\mcp-use-main\\mcp-use_test\\flightBooking"
+      }
+    }
+  }
