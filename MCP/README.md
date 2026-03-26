@@ -84,6 +84,17 @@ This repo includes an MCP server that exposes:
 
 The server configuration is in `flight_booking.json`.
 
+#### Activate and Test
+
+1. Save the file in cursor `mcp list`.
+2. Verify that `flight-booking` appears in the server list.
+3. Click `Done` to return to the chat interface.
+4. Test your MCP server with these commands:
+
+- "Search for flights from LAX to JFK using the flight-booking server"
+- "Get airport information using the flight-booking MCP server"
+- "Book flight FL123 for John Doe using flight-booking server"
+
 ### Weather MCP server
 
 The Weather MCP server is implemented in `weather.py` and makes live requests to the US National Weather Service (NWS) API at `https://api.weather.gov`.
