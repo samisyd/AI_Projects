@@ -1,0 +1,5 @@
+python-dotenv
+a2a-sdk
+crewai
+crewai[google-genai]
+
