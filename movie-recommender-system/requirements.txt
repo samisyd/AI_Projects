@@ -1,0 +1,8 @@
+streamlit
+altair
+numpy
+pandas
+scikit-learn
+nltk
+requests
+python-dotenv
