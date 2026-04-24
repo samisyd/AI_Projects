@@ -1,0 +1,16 @@
+langchain
+langchain-openai
+langchain-core
+langgraph
+langgraph-checkpoint-sqlite
+langchain_community
+langchain-text-splitters
+duckduckgo-search 
+langchain-community
+langsmith
+ipykernel
+dotenv
+streamlit
+ddgs
+pypdf
+faiss-cpu
