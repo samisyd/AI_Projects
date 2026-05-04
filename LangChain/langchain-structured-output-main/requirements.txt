@@ -1,0 +1,7 @@
+langchain
+langchain_openai
+dotenv
+pydantic
+pydantic_core
+pydantic[email]
+langchain_huggingface
