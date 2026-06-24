@@ -1,0 +1,332 @@
+{
+  "name": "AI Support Portal Backend",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "support-ticket",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "9d587ab1-3e50-4494-a730-e3a47b306725",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -176
+      ],
+      "webhookId": "2d133d55-8ee1-4222-ae36-41fd1f68b4e9"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "id": "5b423597-e08f-4263-a94f-038dee8a690d",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        336,
+        48
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "IU5XIlRWsWOfJL8g",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "agent": "openAiFunctionsAgent",
+        "text": "=You are a data extraction AI and expert at categorizing the customer support tickets based on priority. Analyze the incoming customer ticket subject and description.\n\nYou must return exactly a JSON object matching this structure:\n{\n  \"category\": \"Technical\",\n  \"priority\": \"High\" | \"Medium\" | \"Low\",\n  \"summary\": \"A concise 1-sentence summary of the issue\"\n}\n\nAllowed values for category: \"Technical\", \"Billing\", \"General\"\nAllowed values for priority: \"High\", \"Medium\", \"Low\"\n\nTicket Subject: {{ $json.body.subject }}\nTicket Description: {{ $json.body.description }}",
+        "options": {}
+      },
+      "id": "9c8391bb-e6ff-4c63-8101-cf174997b150",
+      "name": "AI Classifier",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1,
+      "position": [
+        432,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "16JkaFTWUyub-Z3T7ybr5EaJWCq7jI-T68Lfbo6x7O7c",
+          "mode": "list",
+          "cachedResultName": "customerSupport",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16JkaFTWUyub-Z3T7ybr5EaJWCq7jI-T68Lfbo6x7O7c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16JkaFTWUyub-Z3T7ybr5EaJWCq7jI-T68Lfbo6x7O7c/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Category": "={{ $json.output.category }}",
+            "Priority": "={{ $json.output.priority }}",
+            "Summary": "={{ $json.output.summary }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Subject": "={{ $('Webhook').item.json.body.subject }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5609caa3-b971-443d-ad39-99830b606a98",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        752,
+        -192
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ilgqaWPzhq6QFHmO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.body.email }}",
+        "subject": "=Support Ticket Received: {{ $('Webhook').item.json.body.subject }}",
+        "emailType": "text",
+        "message": "=\"Hi there, we've received your request regarding '{{ $json.Summary }}'. Our team has flagged this as {{ $json.Priority }} priority and will get back to you soon.\"",
+        "options": {}
+      },
+      "id": "2f392564-3a7c-42fc-a900-02a43b53e7d4",
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        960,
+        -192
+      ],
+      "webhookId": "209f58b8-e689-4d36-9e49-4ae10d4bfa76",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "u14ne817F2bgKVJ2",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"email\": \"{{ $('Webhook').item.json.body.email }}\",\n  \"subject\": \"{{ $('Webhook').item.json.body.subject }}\",\n  \"category\": \"{{ $('AI Classifier').item.json.output.category }}\",\n  \"priority\": \"{{ $('AI Classifier').item.json.output.priority }}\",\n  \"summary\": \"{{ $('AI Classifier').item.json.output.summary }}\",\n  \"status\": \"Logged\"\n}",
+        "options": {}
+      },
+      "id": "65045517-e6bd-4831-8486-812bf275572b",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        -176
+      ]
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"category\": \"Technical\",\n  \"priority\": \"High\",\n  \"summary\": \"User is unable to log in due to a missing 2FA code.\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        720,
+        96
+      ],
+      "id": "f390bb57-e3a1-40ad-a7cf-2fa00967c095",
+      "name": "Structured Output Parser",
+      "alwaysOutputData": false
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "samina-n8n.duckdns.org",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:151.0) Gecko/20100101 Firefox/151.0",
+            "content-length": "491",
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "en-US,en;q=0.9",
+            "content-type": "application/json",
+            "origin": "https://customer-support-portal-nine.vercel.app",
+            "priority": "u=0",
+            "referer": "https://customer-support-portal-nine.vercel.app/",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "cross-site",
+            "sec-gpc": "1",
+            "te": "trailers",
+            "x-forwarded-for": "73.189.58.92",
+            "x-forwarded-host": "samina-n8n.duckdns.org",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "254a5b7c20a3",
+            "x-real-ip": "73.189.58.92"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "email": "samina.syd@gmail.com",
+            "subject": "Export to CSV feature problem",
+            "description": "Hello, we are trying to export our monthly analytics report using the 'Export to CSV' button on our main dashboard view, but it keeps giving us an warning of 502). The rest of the dashboard loads completely fine, and we can see our live data, but we need the raw CSV download to complete our weekly meeting review tomorrow morning. Is this a known system bug or an issue with our account permissions?"
+          },
+          "webhookUrl": "https://samina-n8n.duckdns.org/webhook/support-ticket",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Classifier": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Classifier",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b295786f-ca3d-4b1c-aacd-d573bfd68f03",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "62a550578d6a67a9a3b9edeb65327a48f2960a6f1f0367e29f3725e9350a780f"
+  },
+  "nodeGroups": [],
+  "id": "rnrrPxcxSUFsatvr",
+  "tags": []
+}
