@@ -1,8 +1,0 @@
-google-adk
-litellm
-fastapi
-uvicorn
-httpx
-pydantic
-openai
-streamlit
