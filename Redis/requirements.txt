@@ -1,0 +1,9 @@
+ipywidgets
+langchain
+langchain-redis
+langchain-huggingface
+sentence-transformers
+langchain-core
+langchain-openai
+redis
+dotenv
