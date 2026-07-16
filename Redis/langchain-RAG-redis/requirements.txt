@@ -1,0 +1,7 @@
+langchain-community
+langchain-openai 
+langchain-redis
+redis 
+redisvl 
+python-dotenv
+pypdf
