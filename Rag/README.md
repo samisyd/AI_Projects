@@ -1,6 +1,6 @@
 # Llamindex-Projects
 
-Small, hands-on experiments using **LlamaIndex** for retrieval-augmented generation (RAG).
+**LlamaIndex** for retrieval-augmented generation (RAG).
 
 ## What’s in here
 
