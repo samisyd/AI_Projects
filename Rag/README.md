@@ -61,6 +61,9 @@ jupyter lab
 
 The notebook can also persist an index to `Basic Rag/storage/` so you don’t have to rebuild embeddings every run.
 
+### Run the Llama2 + Hugging Face notebook
+
+Open `Llama2_with_llamaindex.ipynb` in Jupyter or upload it to Google Colab. It installs its own dependencies via `pip` cells and is designed for a GPU runtime.
 
 ## Repo layout (high level)
 
@@ -70,6 +73,7 @@ The notebook can also persist an index to `Basic Rag/storage/` so you don’t ha
 │  ├─ test.ipynb
 │  ├─ requirements.txt
 │  └─ storage/               # persisted index artifacts (generated)
+─ Llama2_with_llamaindex.ipynb
 ├─ main.py
 ├─ pyproject.toml
 ├─ uv.lock
