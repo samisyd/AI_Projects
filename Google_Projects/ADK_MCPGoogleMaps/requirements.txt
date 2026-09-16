@@ -1,0 +1,8 @@
+google-adk[extensions]
+python-dotenv
+google-adk
+google-genai
+opentelemetry-api
+opentelemetry-sdk
+google-adk[mcp]
+
